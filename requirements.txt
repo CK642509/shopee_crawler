@@ -2,3 +2,4 @@ selenium
 pandas
 beautifulsoup4
 lxml
+requests
