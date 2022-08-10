@@ -1,65 +1,12 @@
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-# from selenium.webdriver.common.action_chains import ActionChains
+import os
 import time
-# import re
-from bs4 import BeautifulSoup
-from lxml import etree
-import pandas as pd
 import requests
+import pandas as pd
 
-def set_options():
-    # 關閉通知
-    options = webdriver.ChromeOptions()
-    prefs = {
-        'profile.default_content_setting_values':
-            {
-                'notifications': 2
-            }
-    }
-    options.add_experimental_option('prefs', prefs)
-    options.add_argument("disable-infobars")
-    options.add_argument("--start-maximized")   # 最大化視窗
-
-    return options
-
-def crawl_shopee(kw_list):
-    options = set_options()
-    driver = webdriver.Chrome(options=options)
-
-    for keyword in kw_list:
-        driver.get(f"https://shopee.tw/search?keyword={keyword}&order=asc&page=0&sortBy=price")
-        time.sleep(4)
-
-        for i in range(10):
-            # driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
-            # 隨便找個標籤對它按 page down
-            html = driver.find_element(By.TAG_NAME, 'html')
-            html.send_keys(Keys.PAGE_DOWN)
-            time.sleep(1)
-        print("滑好了")
-        
-        html = etree.HTML(driver.page_source)
-        soup = BeautifulSoup(driver.page_source, "html.parser")
-        
-        analyze(soup, keyword)
-
-def analyze(soup, name):
-    all_ = soup.find_all("div", class_="shopee-search-item-result")
-    all_result = all_[0].find_all("div", class_="col-xs-2-4 shopee-search-item-result__item")
-    print(len(all_result))
-    
-    df = get_df(all_result)
-    
-    df.to_excel(f"{name}.xlsx")
-    df.to_html(f"{name}.html", escape=False, formatters=dict(Country=path_to_image_html))
-
-def path_to_image_html(path):
-    return '<img src="'+ path + '" width="100" >'
-
-def href_to_full_path(href):
-    return f'<a href="https://shopee.tw{href}">link</a>'
+def get_items(kw, limit=60):
+    url = f"https://shopee.tw/api/v4/search/search_items?by=price&keyword={kw}&limit={limit}&newest=0&order=asc&page_type=search&scenario=PAGE_GLOBAL_SEARCH&version=2"
+    response = requests.request("GET", url)
+    return response.json()["items"]
 
 def get_username_by_shopid(id):
     url = f"https://shopee.tw/api/v4/product/get_shop_info?shopid={id}"
@@ -70,82 +17,93 @@ def get_username_by_shopid(id):
     except:
         return ""
 
+def img_to_html(img):
+    return f'<img src="https://cf.shopee.tw/file/{img}_tn" width="100">'
 
-def get_df(all_result) -> pd.DataFrame:
-    name_list = []
+def href_to_html(href):
+    return f'<a href="{href}">link</a>'
+
+def analyze_items(items: list, thr: int) -> pd.DataFrame:
     img_list = []
+    name_list = []
     price_list = []
     sold_list = []
     href_list = []
     shopid_list = []
     user_list = []
+    label_list = []
 
-
-    for product in all_result:
-        try:
-            name = product.find_all("div", class_="ie3A+n bM+7UW Cve6sh")[0].text
-        except:
-            name = ""
-
-        try:
-            img = product.find_all("img", {"class": ["_7DTxhh", "vc8g9F"]})[0]["src"]
-        except:
-            img = ""
-
-        try:
-            price = product.find_all("div", {"class": ["vioxXd", "rVLWG6h"]})[0].text
-        except:
-            price = ""
-
-        try:
-            sold = product.find_all("div", {"class": ["r6HknA", "uEPGHT"]})[0].text
-        except:
-            sold = ""
-
-        try:
-            href = product.find_all("a", {"data-sqe": "link"})[0]["href"]
-        except:
-            href = ""
-
-        if sold != "":
-            sold = sold[4:]   # 移除「已售出」
+    for item in items:
+        img = item["item_basic"]["image"]
+        name = item["item_basic"]["name"]
         
-        # 先用 ?sp_atk= 切，取第一段
-        # 再用 . 切，取倒數第二段
-        shopid = href.split("?sp_atk=")[0].split(".")[-2]
-
+        sold = item["item_basic"]["historical_sold"]
+        price = item["item_basic"]["price_min"] / 100000   # 原始數據後面有5個0
+        # price_max = item["item_basic"]["price_max"]
+        shopid = item["item_basic"]["shopid"]
+        itemid = item["item_basic"]["itemid"]
+        
         username = get_username_by_shopid(shopid)
 
+        href = f"https://shopee.tw/{name.replace(' ', '-')}-i.{shopid}.{itemid}"
+
         name_list.append(name)
-        img_list.append(path_to_image_html(img))
-        price_list.append(price)
-        sold_list.append(sold)
-        href_list.append(href_to_full_path(href))
         shopid_list.append(shopid)
+        sold_list.append(sold)
+        price_list.append(price)
+        img_list.append(img_to_html(img))
         user_list.append(username)
+        href_list.append(href_to_html(href))
+
+        if price <= thr:
+            label_list.append("●")
+        else:
+            label_list.append(" ")
+
+    _min = min(price_list)
 
     data = {
-        "name": name_list,
         "img": img_list,
+        "name": name_list,
         "price": price_list,
+        "min": _min,
         "sold": sold_list,
         "href": href_list,
         "shopid": shopid_list,
-        "username": user_list
+        "username": user_list,
+        "label": label_list
     }
 
     df = pd.DataFrame(data)
+    df2 = df.sort_values(by=["price"])
     
-    return df
+    return df2
+
+def shopee_crawl(kw_list, thr_list):
+    for keyword, thr in zip(kw_list, thr_list):
+        items = get_items(keyword)
+        print(keyword, len(items))
+
+        df = analyze_items(items, thr)
+
+        df.to_excel(f"result/{keyword}.xlsx")
+        df.to_html(f"result/{keyword}.html", escape=False, formatters=dict(Country=img_to_html))
 
 
-
-def main():    
-    kw_list = ["三多偉力健關鍵營養素", "三多偉力健鉻營養素"]
+def main():   
+    kw_list = ["三多偉力健綜合優蛋白", "三多偉力健鉻營養素", "三多偉力健女性營養素", "三多偉力健LPN營養素",
+                "三多偉力健關鍵營養素", "三多偉力健順暢營養素", "三多偉力健均衡營養素"]
     # kw_list = ["三多偉力健關鍵營養素"]
+    thr_list = [500]*7
+
+    # create folder
+    try:
+        os.mkdir("result")
+    except FileExistsError:
+        pass
 
     start_time = time.time()
-    crawl_shopee(kw_list)
+    shopee_crawl(kw_list, thr_list)
     end_time = time.time()
     print("total time =", end_time - start_time)
 
