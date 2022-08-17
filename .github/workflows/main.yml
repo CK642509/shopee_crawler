@@ -28,8 +28,8 @@ jobs:
       - name: install required modules
         run: pip install -r requirements.txt
       
-      # - name: start crawler (needs ~4min)
-      #   run: python sentosa_bot.py
+      - name: start crawler (needs ~5min)
+        run: python sentosa_bot.py
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
@@ -37,17 +37,13 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
           echo 中文
-          
-      - name: send telegram message on comment opened
+
+      - name: send telegram message
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
             From: ${{ github.event.sender.login }}
-            Title: ${{ github.event.issue.title }}
-            Link: ${{ github.event.comment.html_url }}
-            Body:
-            ${{ github.event.comment.body }}
-          document: requirements.txt
+          document: 三多偉力健女性營養素.html
 

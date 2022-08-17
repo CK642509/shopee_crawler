@@ -85,13 +85,13 @@ def shopee_crawl(kw_list, thr_list):
         print(keyword, len(items))
 
         df = analyze_items(items, thr)
-        df_2 = df.drop(columns=['img', 'href'])
-        df_3 = df_2.loc[df['label'] == "●"]
-        df_4 = df_3.drop(columns=['label'])
-        print(df_4)
+        # df_2 = df.drop(columns=['img', 'href'])
+        # df_3 = df_2.loc[df['label'] == "●"]
+        # df_4 = df_3.drop(columns=['label'])
+        # print(df_4)
 
-        # df.to_excel(f"result/{keyword}.xlsx")
-        # df.to_html(f"result/{keyword}.html", escape=False, formatters=dict(Country=img_to_html))
+        df.to_excel(f"result/{keyword}.xlsx")
+        df.to_html(f"result/{keyword}.html", escape=False, formatters=dict(Country=img_to_html))
 
 
 def main():   
