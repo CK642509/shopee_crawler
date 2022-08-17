@@ -28,17 +28,8 @@ jobs:
       - name: install required modules
         run: pip install -r requirements.txt
       
-      # - name: start crawler
-      #   run: python sentosa.py
-
-      # - name: test crawler
-      #   run: python test.py
-      
-      # - name: test crawler2
-      #   run: python sentosa_2.py
-
-      - name: test crawler3
-        run: python sentosa_3.py
+      - name: start crawler (needs more than 4min)
+        run: python sentosa_bot.py
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
