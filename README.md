@@ -1,3 +1,5 @@
+![example workflow](https://github.com/CK642509/shopee_crawler/actions/workflows/main.yml/badge.svg)
+
 # Startup
 
 ## Install
