@@ -37,7 +37,7 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
           echo 中文
-    steps:
+          
       - name: send telegram message on comment opened
         uses: appleboy/telegram-action@master
         with:
