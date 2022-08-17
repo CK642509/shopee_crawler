@@ -30,9 +30,12 @@ jobs:
       
       # - name: start crawler
       #   run: python sentosa.py
+
+      # - name: test crawler
+      #   run: python test.py
       
-      - name: test crawler
-        run: python test.py
+      - name: test crawler2
+        run: python sentosa_2.py
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
