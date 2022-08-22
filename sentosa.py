@@ -1,5 +1,6 @@
 import os
 import time
+import zipfile
 import requests
 import pandas as pd
 
@@ -79,8 +80,8 @@ def analyze_items(items: list, thr: int) -> pd.DataFrame:
     
     return df2
 
-def shopee_crawl(kw_list, thr_list):
-    for keyword, thr in zip(kw_list, thr_list):
+def shopee_crawl(product_dict: dict):
+    for keyword, thr in product_dict.items():
         items = get_items(keyword)
         print(keyword, len(items))
 
@@ -89,12 +90,24 @@ def shopee_crawl(kw_list, thr_list):
         df.to_excel(f"result/{keyword}.xlsx")
         df.to_html(f"result/{keyword}.html", escape=False, formatters=dict(Country=img_to_html))
 
+def zipfiles(path):
+    with zipfile.ZipFile('result.zip', mode='w') as zf:
+        for r, d, f in os.walk(path):
+            for file in f:
+                if file.endswith(".html"):
+                    zf.write(os.path.join(r, file))
+
 
 def main():   
-    kw_list = ["三多偉力健綜合優蛋白", "三多偉力健鉻營養素", "三多偉力健女性營養素", "三多偉力健LPN營養素",
-                "三多偉力健關鍵營養素", "三多偉力健順暢營養素", "三多偉力健均衡營養素"]
-    # kw_list = ["三多偉力健關鍵營養素"]
-    thr_list = [500]*7
+    product_dict = {
+        "三多偉力健綜合優蛋白": 500,
+        "三多偉力健鉻營養素": 500,
+        "三多偉力健女性營養素": 500, 
+        "三多偉力健LPN營養素": 500,
+        "三多偉力健關鍵營養素": 500, 
+        "三多偉力健順暢營養素": 500, 
+        "三多偉力健均衡營養素": 500,
+    }
 
     # create folder
     try:
@@ -103,9 +116,11 @@ def main():
         pass
 
     start_time = time.time()
-    shopee_crawl(kw_list, thr_list)
+    shopee_crawl(product_dict)
     end_time = time.time()
     print("total time =", end_time - start_time)
+
+    zipfiles("result")
 
 
 if __name__ == '__main__':
