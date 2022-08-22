@@ -37,6 +37,9 @@ jobs:
       - name: check file list
         run: ls -al
 
+      - name: compress files   # zipfile module is not working
+        run: zip -r test.zip result
+
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
@@ -51,7 +54,7 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
             From: ${{ github.event.sender.login }}
-          document: result   # no .zip in linux
+          document: test.zip
 
       
       - name: send telegram message
