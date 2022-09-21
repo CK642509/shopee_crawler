@@ -81,3 +81,10 @@
 > 3. 方向鍵「上」
 >    - 顯示上次輸入的指令
 >    - 註：再按會出現在前一次的指令
+
+### 建立虛擬環境
+
+```
+$ pip install virtualenv
+$ virtualenv .venv
+```
