@@ -2,6 +2,7 @@ import os
 import time
 import requests
 import pandas as pd
+import xlsxwriter
 
 def get_items(kw, limit=60):
     url = f"https://shopee.tw/api/v4/search/search_items?by=price&keyword={kw}&limit={limit}&newest=0&order=asc&page_type=search&scenario=PAGE_GLOBAL_SEARCH&version=2"
@@ -21,6 +22,8 @@ def img_to_html(img):
     return f'<img src="https://cf.shopee.tw/file/{img}_tn" width="100">'
 
 def href_to_html(href):
+    print(f'<a href="{href}">link</a>')
+    print(len(f'<a href="{href}">link</a>'))
     return f'<a href="{href}">link</a>'
 
 def analyze_items(items: list, thr: int) -> pd.DataFrame:
@@ -89,10 +92,18 @@ def shopee_crawl(kw_list, thr_list):
         # df_3 = df_2.loc[df['label'] == "●"]
         # df_4 = df_3.drop(columns=['label'])
         # print(df_4)
+        
+        try:
+            df.to_excel(f"result/{keyword}.xlsx", engine='xlsxwriter')
+        except Exception as e:
+            print(e)
+            print(f"result/{keyword}.xlsx failed")
 
-        df.to_excel(f"result/{keyword}.xlsx")
-        df.to_html(f"result/{keyword}.html", escape=False, formatters=dict(Country=img_to_html))
-
+        try:
+            df.to_html(f"result/{keyword}.html", escape=False, formatters=dict(Country=img_to_html))
+        except Exception as e:
+            print(e)
+            print(f"result/{keyword}.html failed")
 
 def main():   
     kw_list = ["三多偉力健綜合優蛋白", "三多偉力健鉻營養素", "三多偉力健女性營養素", "三多偉力健LPN營養素",
