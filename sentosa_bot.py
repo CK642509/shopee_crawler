@@ -22,8 +22,6 @@ def img_to_html(img):
     return f'<img src="https://cf.shopee.tw/file/{img}_tn" width="100">'
 
 def href_to_html(href):
-    print(f'<a href="{href}">link</a>')
-    print(len(f'<a href="{href}">link</a>'))
     return f'<a href="{href}">link</a>'
 
 def analyze_items(items: list, thr: int) -> pd.DataFrame:
@@ -92,7 +90,7 @@ def shopee_crawl(kw_list, thr_list):
         # df_3 = df_2.loc[df['label'] == "●"]
         # df_4 = df_3.drop(columns=['label'])
         # print(df_4)
-        
+
         try:
             df.to_excel(f"result/{keyword}.xlsx", engine='xlsxwriter')
         except Exception as e:
