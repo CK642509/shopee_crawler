@@ -7,6 +7,7 @@ import xlsxwriter
 def get_items(kw, limit=60):
     url = f"https://shopee.tw/api/v4/search/search_items?by=price&keyword={kw}&limit={limit}&newest=0&order=asc&page_type=search&scenario=PAGE_GLOBAL_SEARCH&version=2"
     response = requests.request("GET", url)
+    print(kw, response)   # for debug
     return response.json()["items"]
 
 def get_username_by_shopid(id):
