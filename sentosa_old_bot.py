@@ -23,13 +23,18 @@ def set_options():
             }
     }
     options.add_experimental_option('prefs', prefs)
-    options.add_argument("disable-infobars")
-    options.add_argument("--start-maximized")   # 最大化視窗
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--ignore-certificate-errors')
+    options.add_argument('--disable-extensions')
+    # options.add_argument("disable-infobars")
+    # options.add_argument("--start-maximized")   # 最大化視窗
 
     return options
 
 def crawl_shopee(kw_list):
-    # options = set_options()
+    options = set_options()
     # driver = webdriver.Chrome(options=options)
 
     # # https://github.com/jsoma/selenium-github-actions
@@ -37,7 +42,7 @@ def crawl_shopee(kw_list):
     # driver = webdriver.Chrome(driver_path)
 
     # https://stackoverflow.com/questions/64717302/deprecationwarning-executable-path-has-been-deprecated-selenium-python
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()))
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()), options=options)
 
     for keyword in kw_list:
         driver.get(f"https://shopee.tw/search?keyword={keyword}&order=asc&page=0&sortBy=price")
