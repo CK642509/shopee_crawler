@@ -2,3 +2,4 @@ requests
 pandas
 openpyxl
 xlsxwriter
+webdriver-manager
