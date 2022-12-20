@@ -3,3 +3,6 @@ pandas
 openpyxl
 xlsxwriter
 webdriver-manager
+selenium
+beautifulsoup4
+lxml
