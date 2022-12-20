@@ -16,11 +16,11 @@
 1. 開啟命令提示字元 (搜尋「CMD」)
 2. 輸入以下指令 (忽略$)
     ```
-    $ pip install jupyter notebook
+    pip install jupyter notebook
     ```
 3. 在 CMD 輸入指令，啟動 jupyter notebook
     ```
-    $ jupyter notebook
+    jupyter notebook
     ```
     > 使用 jupyter notebook 期間，CMD不能關閉
 
@@ -36,26 +36,26 @@
 
     在 CMD 依序執行下面四個指令
     ```
-    $ pip install selenium
+    pip install selenium
     ```
     ```
-    $ pip install pandas
+    pip install pandas
     ```
     ```
-    $ pip install beautifulsoup4
+    pip install beautifulsoup4
     ```
     ```
-    $ pip install lxml
+    pip install lxml
     ```
     ```
-    $ pip install requests
+    pip install requests
     ```
 
 2. 一起安裝：
     1. 打開 CMD，進到專案資料夾 (操作方法見最下方)
     2. 在 CMD 執行下面指令
         ```
-        $ pip install -r requirements.txt
+        pip install -r requirements.txt
         ```
 
 ### 5. 安裝 ChromeDriver
@@ -85,6 +85,6 @@
 ### 建立虛擬環境
 
 ```
-$ pip install virtualenv
-$ virtualenv .venv
+pip install virtualenv
+virtualenv .venv
 ```
