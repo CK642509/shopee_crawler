@@ -34,7 +34,7 @@ jobs:
       # - name: start crawler (needs ~5min)
       #   run: python sentosa_bot.py
       - name: install Chromium
-        run: apt-get install -y chromium-browser
+        run: sudo apt-get install -y chromium-browser
 
       - name: test selenium crawler
         run: python sentosa_old.py
