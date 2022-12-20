@@ -31,8 +31,13 @@ jobs:
       - name: install required modules
         run: pip install -r requirements.txt
       
-      - name: start crawler (needs ~5min)
-        run: python sentosa_bot.py
+      # - name: start crawler (needs ~5min)
+      #   run: python sentosa_bot.py
+      - name: install Chromium
+        run: apt-get install -y chromium-browser
+
+      - name: test selenium crawler
+        run: python sentosa_old.py
       
       - name: check file list
         run: ls -al
