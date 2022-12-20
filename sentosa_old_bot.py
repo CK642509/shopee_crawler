@@ -1,5 +1,6 @@
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
 from webdriver_manager.core.utils import ChromeType
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -31,9 +32,12 @@ def crawl_shopee(kw_list):
     # options = set_options()
     # driver = webdriver.Chrome(options=options)
 
-    # https://github.com/jsoma/selenium-github-actions
-    driver_path = ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
-    driver = webdriver.Chrome(driver_path)
+    # # https://github.com/jsoma/selenium-github-actions
+    # driver_path = ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
+    # driver = webdriver.Chrome(driver_path)
+
+    # https://stackoverflow.com/questions/64717302/deprecationwarning-executable-path-has-been-deprecated-selenium-python
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()))
 
     for keyword in kw_list:
         driver.get(f"https://shopee.tw/search?keyword={keyword}&order=asc&page=0&sortBy=price")
