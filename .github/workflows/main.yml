@@ -36,8 +36,11 @@ jobs:
       - name: install Chromium
         run: sudo apt-get install -y chromium-browser
 
+      - name: check Chromium version
+        run: chromedriver --version
+
       - name: test selenium crawler
-        run: python sentosa_old.py
+        run: python sentosa_old_bot.py
       
       - name: check file list
         run: ls -al
