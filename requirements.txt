@@ -6,3 +6,4 @@ webdriver-manager
 selenium
 beautifulsoup4
 lxml
+html2image
