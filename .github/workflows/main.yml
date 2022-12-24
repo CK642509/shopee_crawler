@@ -44,7 +44,7 @@ jobs:
       # - name: check Chromium version
       #   run: chromedriver --version
 
-      - name: test selenium crawler
+      - name: test Line Notify
         env:
           LINE_NOTIFY_TOKEN: ${{ secrets.LINE_NOTIFY_TOKEN }}
         run: LINE_NOTIFY_TOKEN=$LINE_NOTIFY_TOKEN python notify.py
