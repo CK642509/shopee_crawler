@@ -118,15 +118,15 @@ virtualenv .venv
 
 - 若不想用 python 來幫助傳遞 Line Notify 訊息，也可以透過使用他人寫好的 actions 進行，例如[line-notify-actions](https://github.com/marketplace/actions/line-notify-actions)，設定方式如下
     - 在 .github/workflow 資料夾中的 `main.yml` 加入此步驟
-    ```
-    - name: send Line Notify message
-      uses: louis70109/line-notify-action@master
-      with:
-        token: ${{ secrets.LINE_NOTIFY_TOKEN }}
-        message: |
-          From: ${{ github.event.sender.login }}
-        image_file: 三多偉力健關鍵營養素.png
-    ```
+        ```
+        - name: send Line Notify message
+        uses: louis70109/line-notify-action@master
+        with:
+            token: ${{ secrets.LINE_NOTIFY_TOKEN }}
+            message: |
+            From: ${{ github.event.sender.login }}
+            image_file: 三多偉力健關鍵營養素.png
+        ```
 
 ### Telegram
 #### 簡介
