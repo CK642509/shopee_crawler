@@ -71,7 +71,7 @@ def analyze(soup, name,thr):
     hti = Html2Image()
     hti.screenshot(
         html_file=f"result/{name}.html",
-        save_as=f"result/{name}.png"
+        save_as=f"{name}.png"
     )
 
 def path_to_image_html(path):
