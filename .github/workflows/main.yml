@@ -47,7 +47,7 @@ jobs:
       - name: test selenium crawler
         run: python notify.py
         env:
-          LINE_NOTIFY_TOKEN: ${{ secrets.LINE_NOTIFY_TOKEN }
+          LINE_NOTIFY_TOKEN: ${{ secrets.LINE_NOTIFY_TOKEN }}
 
       # - name: test selenium crawler
       #   run: python shoppe.py
