@@ -45,51 +45,38 @@ jobs:
         run: chromedriver --version
 
       - name: test selenium crawler
-        run: python shoppe.py
+        run: python notify.py
+
+      # - name: test selenium crawler
+      #   run: python shoppe.py
       
-      - name: check file list
-        run: ls -al
+      # - name: check file list
+      #   run: ls -al
 
-      - name: compress files   # zipfile module is not working
-        run: zip -r test.zip result
+      # - name: compress files   # zipfile module is not working
+      #   run: zip -r test.zip result
 
-      - name: check file list 2
-        run: ls -al
+      # - name: check file list 2
+      #   run: ls -al
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
-          echo 中文
-
-      - name: send Telegram message
-        uses: appleboy/telegram-action@master
-        with:
-          to: ${{ secrets.TELEGRAM_CHAT_ID }}
-          token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: |
-            From: ${{ github.event.sender.login }}
-          document: test.zip
-          photo: 三多偉力健關鍵營養素.png
-      
-      # https://github.com/marketplace/actions/line-notify-actions
-      - name: send Line Notify message
-        uses: louis70109/line-notify-action@master
-        with:
-          token: ${{ secrets.LINE_NOTIFY_TOKEN }}
-          message: |
-            From: ${{ github.event.sender.login }}
-          file: test.zip
-          image_file: 三多偉力健關鍵營養素.png
-
-      
-      # - name: send telegram message
+      # - name: send Telegram message
       #   uses: appleboy/telegram-action@master
       #   with:
       #     to: ${{ secrets.TELEGRAM_CHAT_ID }}
       #     token: ${{ secrets.TELEGRAM_TOKEN }}
       #     message: |
       #       From: ${{ github.event.sender.login }}
-      #     document: result/三多偉力健女性營養素.html
+      #     document: test.zip
+      #     photo: 三多偉力健關鍵營養素.png
+      
+      # # https://github.com/marketplace/actions/line-notify-actions
+      # - name: send Line Notify message
+      #   uses: louis70109/line-notify-action@master
+      #   with:
+      #     token: ${{ secrets.LINE_NOTIFY_TOKEN }}
+      #     message: |
+      #       From: ${{ github.event.sender.login }}
+      #     file: test.zip
+      #     image_file: 三多偉力健關鍵營養素.png
+
 
