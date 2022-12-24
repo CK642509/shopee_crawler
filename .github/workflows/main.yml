@@ -71,6 +71,7 @@ jobs:
           message: |
             From: ${{ github.event.sender.login }}
           document: test.zip
+          photo: result/三多偉力健關鍵營養素.png
       
       # https://github.com/marketplace/actions/line-notify-actions
       - name: send Line Notify message
@@ -80,6 +81,7 @@ jobs:
           message: |
             From: ${{ github.event.sender.login }}
           file: test.zip
+          image_file: result/三多偉力健關鍵營養素.png
 
       
       # - name: send telegram message
