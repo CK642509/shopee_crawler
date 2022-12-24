@@ -70,7 +70,7 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
             From: ${{ github.event.sender.login }}
-          file: test.zip
+          document: test.zip
       
       # https://github.com/marketplace/actions/line-notify-actions
       - name: send Line Notify message
@@ -79,7 +79,7 @@ jobs:
           token: ${{ secrets.LINE_NOTIFY_TOKEN }}
           message: |
             From: ${{ github.event.sender.login }}
-          document: test.zip
+          file: test.zip
 
       
       # - name: send telegram message
