@@ -45,7 +45,7 @@ jobs:
         run: chromedriver --version
 
       - name: test selenium crawler
-        run: python sentosa_old_bot.py
+        run: python shoppe.py
       
       - name: check file list
         run: ls -al
@@ -63,11 +63,20 @@ jobs:
           echo test, and deploy your project.
           echo 中文
 
-      - name: send telegram message
+      - name: send Telegram message
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            From: ${{ github.event.sender.login }}
+          document: test.zip
+      
+      # https://github.com/marketplace/actions/line-notify-actions
+      - name: send Line Notify message
+        uses: louis70109/line-notify-action@master
+        with:
+          token: ${{ secrets.LINE_NOTIFY_TOKEN }}
           message: |
             From: ${{ github.event.sender.login }}
           document: test.zip
