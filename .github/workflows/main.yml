@@ -34,18 +34,20 @@ jobs:
       # - name: start crawler (needs ~5min)
       #   run: python sentosa_bot.py
 
-      - name: Remove Chrome
-        run: sudo apt purge google-chrome-stable
-      - name: Remove default Chromium
-        run: sudo apt purge chromium-browser
-      - name: install Chromium
-        run: sudo apt-get install -y chromium-browser
+      # - name: Remove Chrome
+      #   run: sudo apt purge google-chrome-stable
+      # - name: Remove default Chromium
+      #   run: sudo apt purge chromium-browser
+      # - name: install Chromium
+      #   run: sudo apt-get install -y chromium-browser
 
-      - name: check Chromium version
-        run: chromedriver --version
+      # - name: check Chromium version
+      #   run: chromedriver --version
 
       - name: test selenium crawler
         run: python notify.py
+        env:
+          LINE_NOTIFY_TOKEN: ${{ secrets.LINE_NOTIFY_TOKEN }
 
       # - name: test selenium crawler
       #   run: python shoppe.py
