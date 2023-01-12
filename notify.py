@@ -2,6 +2,7 @@ import requests
 import os
 
 token = os.environ["LINE_NOTIFY_TOKEN"]
+print(token)
 
 # 要發送的訊息
 message = '這是用 Python 發送的訊息與圖片'
