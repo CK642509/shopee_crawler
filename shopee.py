@@ -8,7 +8,6 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import requests
 import os
-from html2image import Html2Image
 
 
 def set_options():
@@ -62,12 +61,6 @@ def analyze(soup, name,thr):
     
     df.to_excel(f"result/{name}.xlsx")
     df.to_html(f"result/{name}.html", escape=False, formatters=dict(Country=path_to_image_html))
-
-    hti = Html2Image()
-    hti.screenshot(
-        html_file=f"result/{name}.html",
-        save_as=f"{name}.png"
-    )
 
 def path_to_image_html(path):
     return '<img src="'+ path + '" width="100" >'
