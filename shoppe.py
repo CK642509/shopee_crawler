@@ -5,7 +5,6 @@ from selenium.webdriver.common.keys import Keys
 import time
 # import re
 from bs4 import BeautifulSoup
-from lxml import etree
 import pandas as pd
 import requests
 import os
@@ -34,7 +33,6 @@ def crawl_shopee(kw_list,thr_list):
     for keyword,thr in zip(kw_list,thr_list):
         driver.get(f"https://shopee.tw/search?keyword={keyword}&order=asc&page=0&sortBy=price")
         time.sleep(4)
-        #等4秒
 
         for i in range(7):
             # driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
@@ -53,9 +51,6 @@ def crawl_shopee(kw_list,thr_list):
         
         #把HTML的資料全抓下來
         soup = BeautifulSoup(driver.page_source, "html.parser")
-    
-
-        
         analyze(soup, keyword,thr)
 
 def analyze(soup, name,thr):
@@ -129,7 +124,7 @@ def get_df(all_result,thr) -> pd.DataFrame:
 
         if sold != "":
             sold = sold[4:]   # 移除字「已售出」
-        if '-' in price:# 將蝦皮的price 用下面公式作區別
+        if '-' in price:   # 將蝦皮的 price 用下面公式作區別
             if float(price.split('$')[1].split(' ')[0].replace(',','')) < int(thr): 
                 label_list.append("●")
             else:
@@ -139,11 +134,7 @@ def get_df(all_result,thr) -> pd.DataFrame:
                 label_list.append("●")
             else:
                 label_list.append(" ")
-
         
-        
-        # 先用 ?sp_atk= 切，取第一段
-        # 再用 . 切，取倒數第二段
         shopid = href.split("?sp_atk=")[0].split(".")[-2]
 
         username = get_username_by_shopid(shopid)
@@ -174,9 +165,9 @@ def get_df(all_result,thr) -> pd.DataFrame:
 
 
 def main():    
-    kw_list = ["三多偉力健關鍵營養素"] #kw_list數量一定得跟thr_list數量相同，不然會出錯
-    # kw_list = ["三多偉力健關鍵營養素"]
-    thr_list = ['680']
+    kw_list = ["三多偉力健綜合優蛋白", "三多偉力健鉻營養素", "三多偉力健女性營養素", "三多偉力健LPN營養素",
+                "三多偉力健關鍵營養素", "三多偉力健順暢營養素", "三多偉力健均衡營養素"]
+    thr_list = [500]*7
 
     try:
         os.mkdir("result")
