@@ -1,6 +1,23 @@
 ![example workflow](https://github.com/CK642509/shopee_crawler/actions/workflows/main.yml/badge.svg)
 
-# Startup
+# Shopee Crawler
+> 2022.11 蝦皮更新 API 了，因此 `sentosa.py` 已經無法使用
+
+## Python + Github Actions
+透過 Github Actions 定時觸發的機制，幫我們每天固定時間爬蟲並透過 Telegram 回傳結果(檔案)
+
+## 緣起
+- 動機為解決家人在工作上所面臨的需求
+- 由於賣家會彼此削價競爭，隨意出價，導致商品的價格不受控制，進而使得其他正常販售商品的商家權益受損，因此需要經常確認是否有賣家隨意定價的狀況出現，並即時去處理
+
+## 實作方法
+- 透過 python 去爬蝦皮網站，並將商品價格整理成表格
+    - `sentosa.py`是使用 request 直接從 API 取得商品清單
+    - `shopee.py`是使用 selenium ，從網頁取得商品清單
+- 整合 Github Actions，設定平日早上 10 點進行爬蟲
+- 由於 Line Notify 無法傳遞檔案，因此選用 Telegram，將整理好的商品價格表格傳送給我們
+
+---
 
 ## Install
 ### 1. 安裝 Python
@@ -9,7 +26,6 @@
 - 不建議用最新的版本，怕還不穩定，目前推薦用[3.9.12](https://www.python.org/downloads/release/python-3912/)
 - 上面點進去選擇「Windows installer (64-bit)」下載安裝，步驟原則上用預設，詳細步驟可以上網隨便找教學
 - **Add Python 3.9 to PATH 要記得勾選!!!**
-
 
 
 ### 2. 安裝 jupyter notebook
@@ -82,12 +98,14 @@
 >    - 顯示上次輸入的指令
 >    - 註：再按會出現在前一次的指令
 
-### 建立虛擬環境
+### 補充：建立虛擬環境
 
 ```
 pip install virtualenv
 virtualenv .venv
 ```
+
+---
 ## 讓 Github Actions 傳遞訊息(或檔案)
 ### Line Notify
 #### 簡介
