@@ -12,8 +12,8 @@
 
 ## 實作方法
 - 透過 python 去爬蝦皮網站，並將商品價格整理成表格
-    - `sentosa.py`是使用 request 直接從 API 取得商品清單
-    - `shopee.py`是使用 selenium ，從網頁取得商品清單
+    - `sentosa.py`是使用 Requests 直接從 API 取得商品清單
+    - `shopee.py`是使用 Selenium，從網頁取得商品清單
 - 整合 Github Actions，設定平日早上 10 點進行爬蟲
 - 由於 Line Notify 無法傳遞檔案，因此選用 Telegram，將整理好的商品價格表格傳送給我們
 
