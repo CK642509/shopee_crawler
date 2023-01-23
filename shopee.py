@@ -117,16 +117,21 @@ def get_df(all_result,thr) -> pd.DataFrame:
 
         if sold != "":
             sold = sold[4:]   # 移除字「已售出」
-        if '-' in price:   # 將蝦皮的 price 用下面公式作區別
-            if float(price.split('$')[1].split(' ')[0].replace(',','')) < int(thr): 
-                label_list.append("●")
+        try:
+            if '-' in price:   # 將蝦皮的 price 用下面公式作區別
+                if float(price.split('$')[1].split(' ')[0].replace(',','')) < int(thr): 
+                    label_list.append("●")
+                else:
+                    label_list.append(" ")
             else:
-                label_list.append(" ")
-        else:
-            if float(price.split('$')[1].replace(',','')) < int(thr):
-                label_list.append("●")
-            else:
-                label_list.append(" ")
+                if float(price.split('$')[1].replace(',','')) < int(thr):
+                    label_list.append("●")
+                else:
+                    label_list.append(" ")
+        except Exception as e:
+            print(e)
+            print(price)
+            label_list.append(" ")
         
         shopid = href.split("?sp_atk=")[0].split(".")[-2]
 
