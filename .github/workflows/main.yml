@@ -32,44 +32,39 @@ jobs:
         run: pip install -r requirements.txt
       
       # - name: start crawler (needs ~5min)
-      #   run: python sentosa_bot.py
+      #   run: python sentosa.py
 
-      # - name: Remove Chrome
-      #   run: sudo apt purge google-chrome-stable
-      # - name: Remove default Chromium
-      #   run: sudo apt purge chromium-browser
-      # - name: install Chromium
-      #   run: sudo apt-get install -y chromium-browser
+      - name: Remove Chrome
+        run: sudo apt purge google-chrome-stable
+      - name: Remove default Chromium
+        run: sudo apt purge chromium-browser
+      - name: install Chromium
+        run: sudo apt-get install -y chromium-browser
 
-      # - name: check Chromium version
-      #   run: chromedriver --version
+      - name: check Chromium version
+        run: chromedriver --version
 
-      - name: test Line Notify
-        env:
-          LINE_NOTIFY_TOKEN: ${{ secrets.LINE_NOTIFY_TOKEN }}
-        run: LINE_NOTIFY_TOKEN=$LINE_NOTIFY_TOKEN python notify.py
-
-      # - name: test selenium crawler
-      #   run: python shoppe.py
+      - name: test selenium crawler
+        run: python shoppe.py
       
-      # - name: check file list
-      #   run: ls -al
+      - name: check file list
+        run: ls -al
 
-      # - name: compress files   # zipfile module is not working
-      #   run: zip -r test.zip result
+      - name: compress files   # zipfile module is not working
+        run: zip -r test.zip result
 
-      # - name: check file list 2
-      #   run: ls -al
+      - name: check file list 2
+        run: ls -al
 
-      # - name: send Telegram message
-      #   uses: appleboy/telegram-action@master
-      #   with:
-      #     to: ${{ secrets.TELEGRAM_CHAT_ID }}
-      #     token: ${{ secrets.TELEGRAM_TOKEN }}
-      #     message: |
-      #       From: ${{ github.event.sender.login }}
-      #     document: test.zip
-      #     photo: 三多偉力健關鍵營養素.png
+      - name: send Telegram message
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            From: ${{ github.event.sender.login }}
+          document: test.zip
+          # photo: 三多偉力健關鍵營養素.png
       
       # # https://github.com/marketplace/actions/line-notify-actions
       # - name: send Line Notify message
@@ -81,4 +76,7 @@ jobs:
       #     file: test.zip
       #     image_file: 三多偉力健關鍵營養素.png
 
-
+      # - name: test Line Notify
+      #   env:
+      #     LINE_NOTIFY_TOKEN: ${{ secrets.LINE_NOTIFY_TOKEN }}
+      #   run: LINE_NOTIFY_TOKEN=$LINE_NOTIFY_TOKEN python notify.py
